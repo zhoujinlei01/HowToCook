@@ -1,20 +1,39 @@
+import { HomeComponent } from '../components/Home'
+
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World';
+  @State selectIndex: number = 0
+
+  @Builder
+  TarBarBuilder(index: number, text: string, selectIcon: Resource, unselectIcon: Resource) {
+    Column() {
+      Image(this.selectIndex == index ? selectIcon : unselectIcon)
+        .width(30)
+      Text(text)
+        .fontSize(14)
+        .fontColor(this.selectIndex == index ? Color.Black : Color.Gray)
+    }
+  }
+
 
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize(50)
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
+    Tabs({ barPosition: BarPosition.End }) {
+      TabContent() {
+        HomeComponent()
+          .height('100%')
+          .width('100%')
+          .backgroundColor('#ffe2e2e2')
+      }.tabBar(this.TarBarBuilder(0, "首页", $r('app.media.home_select'), $r('app.media.home_unselect')))
+
+      TabContent() {
+        Text("我的内容")
+      }.tabBar(this.TarBarBuilder(1, "我的", $r('app.media.mine_select'), $r('app.media.mine_unselect')))
+
     }
-    .height('100%')
-    .width('100%')
+    .onChange((index: number) => {
+      this.selectIndex = index
+    })
+    .scrollable(false)
   }
 }
