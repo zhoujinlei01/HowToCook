@@ -5,7 +5,7 @@ export const TYPE_DATA: DishType[] = [
     '主食',
     'Staple',
     $r('app.media.startIcon'),
-    [new Dish('炒方便面', false)]
+    [new Dish('炒方便面', true)]
   ),
   new DishType(
     '水产',

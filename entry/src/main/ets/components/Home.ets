@@ -1,6 +1,6 @@
 import { Dish, DishType } from '../bean/Type'
 import { TYPE_DATA } from '../data/data'
-import { promptAction } from '@kit.ArkUI'
+import { promptAction, router } from '@kit.ArkUI'
 
 
 @Preview
@@ -101,19 +101,27 @@ struct TypeItemComponent {
         top: '5%',
         bottom: '3%'
       })
-      .onClick(() => {
-        if (this.dish?.canBeViewed) {
-          // 跳转菜品详情页面
-        } else {
-          promptAction.showToast({
-            message: this.dish?.name + " 无法被查看"
-          })
-        }
-      })
+      .onClick(() => this.clickDish())
 
       Divider()
         .width('100%')
         .strokeWidth(1)
+    }
+  }
+
+  clickDish() {
+    if (this.dish?.canBeViewed) {
+      // 跳转菜品详情页面
+      router.pushUrl({
+        url: "pages/DishDetailPage",
+        params: {
+          dish: this.dish
+        }
+      }, router.RouterMode.Standard)
+    } else {
+      promptAction.showToast({
+        message: this.dish?.name + " 无法被查看"
+      })
     }
   }
 }

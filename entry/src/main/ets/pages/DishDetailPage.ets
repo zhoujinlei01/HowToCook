@@ -1,20 +1,15 @@
+import { NavigationBar } from '../components/ToolBar';
+
 @Entry
 @Component
 struct DishDetailPage {
   @State message: string = 'Hello World';
 
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('DishDetailPageHelloWorld')
-        .fontSize(50)
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
+    Column() {
+      NavigationBar({ title: '炒方便面' })
     }
+    .backgroundColor('#ffe2e2e2')
     .height('100%')
-    .width('100%')
   }
 }
