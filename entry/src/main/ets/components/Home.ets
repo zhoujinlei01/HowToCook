@@ -1,5 +1,6 @@
-import { Type } from '../bean/Type'
+import { Dish, DishType } from '../bean/Type'
 import { TYPE_DATA } from '../data/data'
+import { promptAction } from '@kit.ArkUI'
 
 
 @Preview
@@ -9,7 +10,7 @@ export struct HomeComponent {
     Scroll() {
       Column() {
         List() {
-          ForEach(TYPE_DATA, (item: Type, index: number) => {
+          ForEach(TYPE_DATA, (item: DishType, index: number) => {
             ListItem() {
               TypeComponent({
                 type: item
@@ -31,7 +32,7 @@ export struct HomeComponent {
 @Component
 struct TypeComponent {
   @State isShow: boolean = false
-  type?: Type
+  type?: DishType
 
   build() {
     Flex() {
@@ -57,8 +58,8 @@ struct TypeComponent {
         })
 
         if (this.isShow) {
-          ForEach(this.type?.data, (item: string) => {
-            TypeItemComponent({ name: item })
+          ForEach(this.type?.dishList, (item: Dish) => {
+            TypeItemComponent({ dish: item })
           })
         }
       }
@@ -83,13 +84,13 @@ struct TypeComponent {
 
 @Component
 struct TypeItemComponent {
-  name?: string
+  dish?: Dish
 
   build() {
     Column() {
 
       Row() {
-        Text(this.name)
+        Text(this.dish?.name)
           .fontWeight(FontWeight.Bold)
         Blank()
         Image($r('app.media.skip'))
@@ -99,6 +100,15 @@ struct TypeItemComponent {
       .padding({
         top: '5%',
         bottom: '3%'
+      })
+      .onClick(() => {
+        if (this.dish?.canBeViewed) {
+          // 跳转菜品详情页面
+        } else {
+          promptAction.showToast({
+            message: this.dish?.name + " 无法被查看"
+          })
+        }
       })
 
       Divider()
