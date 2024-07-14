@@ -1,3 +1,5 @@
+import { BaseContentComponent } from '../components/Base';
+import { DishDetailContent } from '../components/DishDetail';
 import { NavigationBar } from '../components/ToolBar';
 
 @Entry
@@ -8,8 +10,7 @@ struct DishDetailPage {
   build() {
     Column() {
       NavigationBar({ title: '炒方便面' })
+      DishDetailContent()
     }
-    .backgroundColor('#ffe2e2e2')
-    .height('100%')
   }
 }

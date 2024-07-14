@@ -1,31 +1,31 @@
 import { Dish, DishType } from '../bean/Type'
 import { TYPE_DATA } from '../data/data'
 import { promptAction, router } from '@kit.ArkUI'
+import { BaseContentComponent } from './Base'
 
 
 @Preview
 @Component
 export struct HomeComponent {
   build() {
-    Scroll() {
-      Column() {
-        List() {
-          ForEach(TYPE_DATA, (item: DishType, index: number) => {
+    BaseContentComponent() {
+      Scroll() {
+        List({ space: 12 }) {
+          ForEach(TYPE_DATA, (item: DishType) => {
             ListItem() {
               TypeComponent({
                 type: item
               })
             }
           })
-        }.width('100%')
-        .padding({
-          top: '2%',
-          bottom: '2%'
+        }
+        .margin({
+          top: '10',
+          bottom: '10'
         })
       }
+      .scrollBar(BarState.Off)
     }
-    .scrollBar(BarState.Off)
-
   }
 }
 
@@ -35,50 +35,46 @@ struct TypeComponent {
   type?: DishType
 
   build() {
-    Flex() {
-      Column() {
-        Row() {
-          Text(this.type?.name)
-            .fontSize(18)
-            .fontWeight(FontWeight.Bold)
-            .fontColor(this.isShow ? Color.Gray : Color.Black)
-          Blank().width(5)
-          Text(this.type?.engName)
-            .fontSize(18)
-            .fontWeight(FontWeight.Bold)
-            .fontColor(this.isShow ? Color.Gray : Color.Black)
-          Blank()
-          Image(this.type?.img)
-            .width(30)
-        }
-        .width('100%')
-        .onClick(() => {
-          console.log(this.type?.name + ' isShow: ' + this.isShow + ' to ' + !this.isShow);
-          this.isShow = !this.isShow
-        })
+    Column() {
+      Row() {
+        Text(this.type?.name)
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(this.isShow ? Color.Gray : Color.Black)
+        Blank().width(5)
+        Text(this.type?.engName)
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(this.isShow ? Color.Gray : Color.Black)
+        Blank()
+        Image(this.type?.img)
+          .width(30)
+      }
+      .width('100%')
+      .onClick(() => {
+        console.log(this.type?.name + ' isShow: ' + this.isShow + ' to ' + !this.isShow);
+        this.isShow = !this.isShow
+      })
 
-        if (this.isShow) {
+      if (this.isShow) {
+        ColumnSplit() {
           ForEach(this.type?.dishList, (item: Dish) => {
             TypeItemComponent({ dish: item })
           })
         }
+        .margin({
+          top: '2%'
+        })
       }
-      .layoutWeight(1)
-      .padding({
-        left: '5%',
-        right: '5%',
-        top: '5%',
-        bottom: '5%'
-      })
-      .backgroundColor(Color.White)
-      .margin({
-        top: '2%',
-        left: '3%',
-        right: '3%',
-        bottom: '2%'
-      })
-      .borderRadius(5)
     }
+    .backgroundColor(Color.White)
+    .padding({
+      left: '5%',
+      right: '5%',
+      top: '5%',
+      bottom: this.isShow ? '2%' : '5%'
+    })
+    .borderRadius(5)
   }
 }
 
@@ -87,26 +83,19 @@ struct TypeItemComponent {
   dish?: Dish
 
   build() {
-    Column() {
-
-      Row() {
-        Text(this.dish?.name)
-          .fontWeight(FontWeight.Bold)
-        Blank()
-        Image($r('app.media.skip'))
-          .width(20)
-      }
-      .width('100%')
-      .padding({
-        top: '5%',
-        bottom: '3%'
-      })
-      .onClick(() => this.clickDish())
-
-      Divider()
-        .width('100%')
-        .strokeWidth(1)
+    Row() {
+      Text(this.dish?.name)
+        .fontWeight(FontWeight.Bold)
+      Blank()
+      Image($r('app.media.skip'))
+        .width(20)
     }
+    .width('100%')
+    .padding({
+      top: '3%',
+      bottom: '3%'
+    })
+    .onClick(() => this.clickDish())
   }
 
   clickDish() {

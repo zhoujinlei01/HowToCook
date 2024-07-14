@@ -21,9 +21,6 @@ struct Index {
     Tabs({ barPosition: BarPosition.End }) {
       TabContent() {
         HomeComponent()
-          .height('100%')
-          .width('100%')
-          .backgroundColor('#ffe2e2e2')
       }.tabBar(this.TarBarBuilder(0, "首页", $r('app.media.home_select'), $r('app.media.home_unselect')))
 
       TabContent() {
